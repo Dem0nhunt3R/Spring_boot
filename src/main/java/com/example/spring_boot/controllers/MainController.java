@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
+//Создать crud  операции по аналогии с уроком для сущности product. Поля id, title, price, type, isPresent. Добавить
+        //в продукт поле categories к которому он относиьтся. Категория является стрингой
 @AllArgsConstructor
 @RestController
 public class MainController {
