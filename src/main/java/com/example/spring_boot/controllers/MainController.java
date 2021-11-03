@@ -3,14 +3,15 @@ package com.example.spring_boot.controllers;
 import com.example.spring_boot.dao.ProductDAO;
 import com.example.spring_boot.models.Product;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @AllArgsConstructor
+
+//Создать crud  операции по аналогии с уроком для сущности product. Поля id, title, price, type, isPresent.
 public class MainController {
     private ProductDAO productDAO;
 
