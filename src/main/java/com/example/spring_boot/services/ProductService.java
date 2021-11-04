@@ -27,7 +27,7 @@ public class ProductService {
 
 
     public Product getProductById(int id) {
-        return productDAO.findById(id).orElse(new Product("not exist",0,null,false));
+        return productDAO.findById(id).orElse(new Product("not exist!",0,null,false));
     }
 
     public List<Product> deleteProductById(int id) {
