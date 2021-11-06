@@ -57,6 +57,5 @@ public class UserController {
     @PostMapping("/modify")
     public void modify(HttpServletRequest request){
         String authorization = request.getHeader("Authorization");
-        System.out.println(authorization);
     }
 }
