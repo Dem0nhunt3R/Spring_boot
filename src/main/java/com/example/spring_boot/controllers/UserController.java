@@ -11,42 +11,38 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
 @RequestMapping("/user")
+@CrossOrigin(origins = "http://localhost:3000", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.OPTIONS})
 public class UserController {
-
     private UserService userService;
     private ProductService productService;
 
     @PostMapping("/registration")
-    public String registration(@RequestBody UserRequestDTO userRequestDTO){
-        userService.saveUser(userRequestDTO);
-        return "Registration complete";
+    public List<UserResponseDTO> saveUser(@RequestBody UserRequestDTO userRequestDTO) {
+        userService.save(userRequestDTO);
+        return userService.findAll();
     }
 
     @GetMapping("/activation/{id}")
-    public String activation(@PathVariable int id){
-        userService.activateUser(id);
-        return "Your account has been activated";
+    public UserResponseDTO activateUser(@PathVariable int id) {
+        return userService.active(id);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserResponseDTO> login(@RequestBody UserRequestDTO userRequestDTO) throws Exception {
-        User user = userService.findUserByLoginAndPassword(userRequestDTO);
-        return userService.doResponse(user);
+    public ResponseEntity<UserResponseDTO> loginUser(@RequestBody UserRequestDTO userRequestDTO) throws Exception {
+        return userService.doResponse(userService.findUserByLoginAndPassword(userRequestDTO));
     }
-    
-    @PostMapping("/addProduct")
-    public String addProduct(HttpServletRequest request,@RequestBody ProductDTO productDTO) throws Exception {
-        User user = userService.extractTokenAndFindUser(request);
-        if(user != null){
-            productService.saveProduct(productDTO,user);
-        }else{
-            throw new Exception();
-        }
 
-        return "You added "+productDTO.getTitle()+" with "+productDTO.getPrice()+" price";
+    @PostMapping("/addProduct")
+    public String addUserProduct(HttpServletRequest request, @RequestBody ProductDTO productDTO) throws Exception {
+        User user = userService.extractUserByToken(request);
+        if (user != null) {
+            productService.saveProduct(productDTO, user);
+        } else throw new Exception();
+        return "Your product:" + productDTO.getTitle() + "has been added with price:" + productDTO.getPrice();
     }
 }

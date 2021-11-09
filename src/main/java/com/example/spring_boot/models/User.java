@@ -9,20 +9,19 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(unique = true)
-    private String login;
-    private String password;
+    private String  login;
+    private String  password;
     private boolean isActivated;
-    private String token;
+    private String  token;
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
-    private List<Product> products = new ArrayList<>();
+    List<Product> products = new ArrayList<>();
 }
