@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+
 import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -21,6 +22,14 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class UserService {
     private UserDAO userDAO;
+
+    public List<UserResponseDTO> findAll() {
+        return userDAO.findAll().stream().map((user) -> {
+            UserResponseDTO dto = new UserResponseDTO();
+            dto.setId(user.getId());
+            return dto;
+        }).collect(Collectors.toList());
+    }
 
     public void save(UserRequestDTO userRequestDTO) {
         User user = new User();
@@ -69,13 +78,5 @@ public class UserService {
         userResponseDTO.setId(user.getId());
         userResponseDTO.setLogin(user.getLogin());
         return new ResponseEntity<UserResponseDTO>(userResponseDTO,httpHeaders, HttpStatus.OK);
-    }
-
-    public List<UserResponseDTO> findAll() {
-        return userDAO.findAll().stream().map((user) -> {
-            UserResponseDTO dto = new UserResponseDTO();
-            dto.setId(user.getId());
-            return dto;
-        }).collect(Collectors.toList());
     }
 }

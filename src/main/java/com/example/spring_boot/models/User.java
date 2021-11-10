@@ -20,7 +20,7 @@ public class User {
     private int id;
     private String  login;
     private String  password;
-    private boolean isActivated;
+    private boolean isActivated = false;
     private String  token;
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
     List<Product> products = new ArrayList<>();
